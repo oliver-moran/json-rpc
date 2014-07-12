@@ -1,5 +1,5 @@
 {
-  "name": "json-rpc2",
+  "name": "json-rpc.js",
   "version": "0.0.1",
   "description": "A simple JavaScript library to create, parse and manage JSON-RPC 2.0 calls.",
   "main": "json-rpc.min.js",
