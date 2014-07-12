@@ -1,5 +1,5 @@
 {
-  "name": "json-rpc",
+  "name": "json-rpc2",
   "main": "json-rpc.min.js",
   "version": "0.0.1",
   "homepage": "https://github.com/oliver-moran/json-rpc",
