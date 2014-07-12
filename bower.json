@@ -1,0 +1,25 @@
+{
+  "name": "json-rpc",
+  "main": "json-rpc.min.js",
+  "version": "0.0.1",
+  "homepage": "https://github.com/oliver-moran/json-rpc",
+  "authors": [
+    "Oliver Moran <oliver.moran@gmail.com>"
+  ],
+  "description": "A simple JavaScript library to create, parse and manage JSON-RPC 2.0 calls.",
+  "keywords": [
+    "json-rpc",
+    "json",
+    "rpc",
+    "socket",
+    "protocol"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
