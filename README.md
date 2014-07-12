@@ -8,17 +8,17 @@ For the JSON-RPC 2.0 specification, see: http://www.jsonrpc.org/specification
 Pseudo code example for a JSON-RPC request:
 
     // Client:
-    var request = JSONRPC.Request(method, params);
+    var request = JSON_RPC.Request(method, params);
     var id = request.id;
     request.toString(); // send to server
 
     // Server:
-    var request = JSONRPC.parse(request);
+    var request = JSON_RPC.parse(request);
     request.response = request.method(); // if successful
     request.toString(); // return to client
 
     // Back on Client:
-    var request = JSONRPC.parse(request);
+    var request = JSON_RPC.parse(request);
     if (request.id == id) { // the request ID is maintained
         var response = request.response; // if successful
     }
@@ -26,12 +26,12 @@ Pseudo code example for a JSON-RPC request:
 Notifications are handled similarly but without support for IDs or a response/error:
 
     // Client:
-    var request = JSONRPC.Notification(method, params);
+    var request = JSON_RPC.Notification(method, params);
     request.toString(); // send to server
 
     // Server:
-    var request = JSONRPC.parse(request);
-    if (request.constructor === JSONRPC.Notification) {
+    var request = JSON_RPC.parse(request);
+    if (request.constructor === JSON_RPC.Notification) {
         // DO NOT reply to a Notification
         request.method();
     }
@@ -39,22 +39,22 @@ Notifications are handled similarly but without support for IDs or a response/er
 Error handling for requests (not notifications) are handled like this:
 
     // Server:
-    var request = JSONRPC.parse(request);
+    var request = JSON_RPC.parse(request);
     if (request.error) request.toString(); // parse error, return to client
     
     var response = request.method();
     if (!reponse) { // hypothetical error scenario
-        request.error = new JSONRPC.Error(-1, "An error occurred");
+        request.error = new JSON_RPC.Error(-1, "An error occurred");
     } else {
         request.response = response;
     }
     
     request.toString(); // return to client
     
-The JSONRPC object also contains pre-rolled errors:
+The JSON_RPC object also contains pre-rolled errors:
 
-    JSONRPC.PARSE_ERROR
-    JSONRPC.INVALID_REQUEST
-    JSONRPC.METHOD_NOT_FOUND
-    JSONRPC.INVALID_PARAMS
-    JSONRPC.INTERNAL_ERROR
+    JSON_RPC.PARSE_ERROR
+    JSON_RPC.INVALID_REQUEST
+    JSON_RPC.METHOD_NOT_FOUND
+    JSON_RPC.INVALID_PARAMS
+    JSON_RPC.INTERNAL_ERROR

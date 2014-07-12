@@ -13,75 +13,75 @@
     <script>
 
         test( "Errors", function() {
-            ok( JSONRPC.PARSE_ERROR.constructor, "PARSE_ERROR user Error constructor" );
-            ok( JSONRPC.INVALID_REQUEST.constructor, "INVALID_REQUEST user Error constructor" );
-            ok( JSONRPC.METHOD_NOT_FOUND.constructor, "METHOD_NOT_FOUND user Error constructor" );
-            ok( JSONRPC.INVALID_PARAMS.constructor, "INVALID_PARAMS user Error constructor" );
-            ok( JSONRPC.INTERNAL_ERROR.constructor, "INTERNAL_ERROR user Error constructor" );
+            ok( JSON_RPC.PARSE_ERROR.constructor, "PARSE_ERROR user Error constructor" );
+            ok( JSON_RPC.INVALID_REQUEST.constructor, "INVALID_REQUEST user Error constructor" );
+            ok( JSON_RPC.METHOD_NOT_FOUND.constructor, "METHOD_NOT_FOUND user Error constructor" );
+            ok( JSON_RPC.INVALID_PARAMS.constructor, "INVALID_PARAMS user Error constructor" );
+            ok( JSON_RPC.INTERNAL_ERROR.constructor, "INTERNAL_ERROR user Error constructor" );
             
-            ok( JSON.stringify(JSONRPC.PARSE_ERROR) == '{"code":-32700,"message":"An error occurred on the server while parsing the JSON text."}', "PARSE_ERROR text OK" );
-            ok( JSON.stringify(JSONRPC.INVALID_REQUEST) == '{"code":-32600,"message":"The JSON sent is not a valid Request object."}', "INVALID_REQUEST text OK" );
-            ok( JSON.stringify(JSONRPC.METHOD_NOT_FOUND) == '{"code":-32601,"message":"The method does not exist / is not available."}', "METHOD_NOT_FOUND text OK" );
-            ok( JSON.stringify(JSONRPC.INVALID_PARAMS) == '{"code":-32602,"message":"Invalid method parameter(s)."}', "INVALID_PARAMS text OK" );
-            ok( JSON.stringify(JSONRPC.INTERNAL_ERROR) == '{"code":-32603,"message":"Internal JSON-RPC error."}', "INTERNAL_ERROR text OK" );
+            ok( JSON.stringify(JSON_RPC.PARSE_ERROR) == '{"code":-32700,"message":"An error occurred on the server while parsing the JSON text."}', "PARSE_ERROR text OK" );
+            ok( JSON.stringify(JSON_RPC.INVALID_REQUEST) == '{"code":-32600,"message":"The JSON sent is not a valid Request object."}', "INVALID_REQUEST text OK" );
+            ok( JSON.stringify(JSON_RPC.METHOD_NOT_FOUND) == '{"code":-32601,"message":"The method does not exist / is not available."}', "METHOD_NOT_FOUND text OK" );
+            ok( JSON.stringify(JSON_RPC.INVALID_PARAMS) == '{"code":-32602,"message":"Invalid method parameter(s)."}', "INVALID_PARAMS text OK" );
+            ok( JSON.stringify(JSON_RPC.INTERNAL_ERROR) == '{"code":-32603,"message":"Internal JSON-RPC error."}', "INTERNAL_ERROR text OK" );
             
-            var error = new JSONRPC.Error(0, "Test Error", [1, 2, 3]);
+            var error = new JSON_RPC.Error(0, "Test Error", [1, 2, 3]);
             ok( JSON.stringify(error) == '{"code":0,"message":"Test Error","data":[1,2,3]}', "Sample error text OK" );
         });
         
         test( "Request", function() {
-            var rpc0 = new JSONRPC.Request("myMethod", [1, 2, 3]);
+            var rpc0 = new JSON_RPC.Request("myMethod", [1, 2, 3]);
             ok( rpc0.toString() == '{"jsonrpc":"2.0","id":0,"method":"myMethod","params":[1,2,3]}', "Constructed properly" );
             
-            var rpc1 = new JSONRPC.Request("myMethod", [1, 2, 3]);
+            var rpc1 = new JSON_RPC.Request("myMethod", [1, 2, 3]);
             ok( rpc1.toString() == '{"jsonrpc":"2.0","id":1,"method":"myMethod","params":[1,2,3]}', "ID increments" );
             
             rpc0.result = [4, 5, 6];
             ok( rpc0.toString() == '{"jsonrpc":"2.0","id":0,"result":[4,5,6]}', "Manages successful result" );
             
-            rpc1.error = JSONRPC.METHOD_NOT_FOUND;
+            rpc1.error = JSON_RPC.METHOD_NOT_FOUND;
             ok( rpc1.toString() == '{"jsonrpc":"2.0","id":1,"error":{"code":-32601,"message":"The method does not exist / is not available."}}', "Manages error result" );
             
-            ok( rpc0.constructor === JSONRPC.Request, "Request constructor used" );
-            ok( rpc1.error.constructor === JSONRPC.Error, "Error constructor used" );
+            ok( rpc0.constructor === JSON_RPC.Request, "Request constructor used" );
+            ok( rpc1.error.constructor === JSON_RPC.Error, "Error constructor used" );
         });
         
         test( "Notification", function() {
-            var rpc0 = new JSONRPC.Notification("myNotification", [1, 2, 3]);
+            var rpc0 = new JSON_RPC.Notification("myNotification", [1, 2, 3]);
             ok( rpc0.toString() == '{"jsonrpc":"2.0","method":"myNotification","params":[1,2,3]}', "Constructed properly" );
-            ok( rpc0.constructor === JSONRPC.Notification, "Notification constructor used" );
+            ok( rpc0.constructor === JSON_RPC.Notification, "Notification constructor used" );
         });
         
         test( "Parser", function() {
-            var rpc0 = new JSONRPC.Request("myMethod", [1, 2, 3]);
-            var rpc1 = new JSONRPC.Notification("myNotification", [1, 2, 3]);
-            var rpc2 = JSONRPC.parse(rpc0.toString());
-            var rpc3 = JSONRPC.parse(rpc1.toString());
+            var rpc0 = new JSON_RPC.Request("myMethod", [1, 2, 3]);
+            var rpc1 = new JSON_RPC.Notification("myNotification", [1, 2, 3]);
+            var rpc2 = JSON_RPC.parse(rpc0.toString());
+            var rpc3 = JSON_RPC.parse(rpc1.toString());
             
             ok( rpc0.toString() == rpc2.toString(), "Request parsed" );
             ok( rpc1.toString() == rpc3.toString(), "Notification parsed" );
             
-            ok( rpc2.constructor === JSONRPC.Request, "Request constructor maintained" );
-            ok( rpc3.constructor === JSONRPC.Notification, "Notification constructor maintained" );
+            ok( rpc2.constructor === JSON_RPC.Request, "Request constructor maintained" );
+            ok( rpc3.constructor === JSON_RPC.Notification, "Notification constructor maintained" );
             
             rpc0.result = [4, 5, 6]
-            var rpc4 = JSONRPC.parse(rpc0.toString());
+            var rpc4 = JSON_RPC.parse(rpc0.toString());
             ok( rpc0.toString() == rpc4.toString(), "Parsed successful result" );
             
-            rpc0.error = JSONRPC.METHOD_NOT_FOUND;
-            var rpc5 = JSONRPC.parse(rpc0.toString());
+            rpc0.error = JSON_RPC.METHOD_NOT_FOUND;
+            var rpc5 = JSON_RPC.parse(rpc0.toString());
             ok( rpc0.toString() == rpc5.toString(), "Parsed error result" );
-            ok( rpc5.error.constructor === JSONRPC.Error, "Error constructor used" );
+            ok( rpc5.error.constructor === JSON_RPC.Error, "Error constructor used" );
         });
         
         test( "Batch", function() {
-            var rpc0 = new JSONRPC.Request("myMethod", [1, 2, 3]);
-            var rpc1 = new JSONRPC.Request("myMethod", [4, 5, 6]);
-            var rpc2 = new JSONRPC.Notification("myNotification", [1, 2, 3]);
-            var rpc3 = new JSONRPC.Notification("myNotification", [4, 5, 6]);
+            var rpc0 = new JSON_RPC.Request("myMethod", [1, 2, 3]);
+            var rpc1 = new JSON_RPC.Request("myMethod", [4, 5, 6]);
+            var rpc2 = new JSON_RPC.Notification("myNotification", [1, 2, 3]);
+            var rpc3 = new JSON_RPC.Notification("myNotification", [4, 5, 6]);
             
             var batch = [rpc0.toString(), rpc1.toString(), rpc2.toString(), rpc3.toString()];
-            var arr = JSONRPC.parse(batch);
+            var arr = JSON_RPC.parse(batch);
 
             arr.forEach(function (el, i) {
                 ok( el.toString() == batch[i], "Batch request " + i + " OK" );
