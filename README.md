@@ -8,7 +8,7 @@ For the JSON-RPC 2.0 specification, see: http://www.jsonrpc.org/specification
 Pseudo code example for a JSON-RPC request:
 
     // Client:
-    var request = JSON_RPC.Request(method, params);
+    var request = new JSON_RPC.Request(method, params);
     var id = request.id;
     request.toString(); // send to server
 
@@ -26,7 +26,7 @@ Pseudo code example for a JSON-RPC request:
 Notifications are handled similarly but without support for IDs or a response/error:
 
     // Client:
-    var request = JSON_RPC.Notification(method, params);
+    var request = new JSON_RPC.Notification(method, params);
     request.toString(); // send to server
 
     // Server:
