@@ -151,7 +151,7 @@ var JSON_RPC = {};
         try {
             rpc = JSON.parse(rpc);
         } catch (err) {
-            var obj = JSON_RPC.Request();
+            var obj = new JSON_RPC.Request();
             obj.result = JSON_RPC.PARSE_ERROR;
             obj.id = null;
             return obj;
@@ -159,7 +159,7 @@ var JSON_RPC = {};
         
         // 2.0?
         if (rpc.jsonrpc !== "2.0") {
-            var obj = JSON_RPC.Request();
+            var obj = new JSON_RPC.Request();
             obj.result = JSON_RPC.INVALID_REQUEST;
             obj.id = null;
             return obj;
